@@ -15,6 +15,27 @@ export type PaginatedExpenseParams = PaginatedQueryParams<HotelExpense> & {
   month?: string;
 };
 
+// Tipos para importación
+interface ImportExpensesResponse {
+  statusCode: number;
+  message: string;
+  data: {
+    total: number;
+    successful: number;
+    failed: number;
+    errors: Array<{
+      row: number;
+      data: Record<string, unknown>;
+      error: string;
+    }>;
+  };
+}
+
+interface ImportExpensesRequest {
+  file: File;
+  continueOnError?: boolean;
+}
+
 export const expensesApi = createApi({
   reducerPath: "expensesApi",
   baseQuery: baseQueryWithReauth,
@@ -146,6 +167,34 @@ export const expensesApi = createApi({
       }),
       invalidatesTags: ["Expense"],
     }),
+
+    // Importar gastos desde archivo Excel
+    importExpenses: build.mutation<ImportExpensesResponse, ImportExpensesRequest>({
+      query: ({ file, continueOnError = false }) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("continueOnError", String(continueOnError));
+
+        return {
+          url: "/expenses/import",
+          method: "POST",
+          body: formData,
+          credentials: "include",
+          // Importante: no establecer Content-Type, lo hará automáticamente para FormData
+        };
+      },
+      invalidatesTags: ["Expense"],
+    }),
+
+    // Descargar plantilla para importar gastos
+    downloadExpenseTemplate: build.query<Blob, void>({
+      query: () => ({
+        url: "/expenses/import/template",
+        method: "GET",
+        responseHandler: async (response: Response) => await response.blob(),
+        credentials: "include",
+      }),
+    }),
   }),
 });
 
@@ -156,4 +205,6 @@ export const {
   useCreateExpenseMutation,
   useUpdateExpenseMutation,
   useDeleteExpensesMutation,
+  useImportExpensesMutation,
+  useLazyDownloadExpenseTemplateQuery,
 } = expensesApi;

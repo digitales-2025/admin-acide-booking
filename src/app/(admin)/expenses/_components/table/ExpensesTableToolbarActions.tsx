@@ -4,6 +4,7 @@ import { type Table } from "@tanstack/react-table";
 
 import { HotelExpense } from "../../_types/expenses";
 import { CreateExpensesDialog } from "../create/CreateExpensesDialog";
+import { ImportExpensesDialog } from "../import/ImportExpensesDialog";
 import { DeleteExpensesDialog } from "../state-management/DeleteExpensesDialog";
 
 export interface ExpensesTableToolbarActionsProps {
@@ -21,6 +22,7 @@ export function ExpensesTableToolbarActions({ table }: ExpensesTableToolbarActio
           }}
         />
       ) : null}
+      <ImportExpensesDialog />
       <CreateExpensesDialog />
     </div>
   );
