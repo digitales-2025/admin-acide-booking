@@ -6,6 +6,8 @@ import {
   useDeleteExpensesMutation,
   useGetAllExpensesQuery,
   useGetExpenseByIdQuery,
+  useImportExpensesMutation,
+  useLazyDownloadExpenseTemplateQuery,
   useUpdateExpenseMutation,
 } from "../_services/expensesApi";
 import { CreateHotelExpenseDto, DeleteHotelExpenseDto, UpdateHotelExpenseDto } from "../_types/expenses";
@@ -48,6 +50,13 @@ export const useExpenses = () => {
   // Mutación para eliminar múltiples gastos
   const [deleteExpenses, { isSuccess: isSuccessDeleteExpenses, isLoading: isLoadingDeleteExpenses }] =
     useDeleteExpensesMutation();
+
+  // Mutación para importar gastos
+  const [importExpenses, { isSuccess: isSuccessImportExpenses, isLoading: isLoadingImportExpenses }] =
+    useImportExpensesMutation();
+
+  // Query para descargar plantilla
+  const [downloadTemplate, { isLoading: isLoadingDownloadTemplate }] = useLazyDownloadExpenseTemplateQuery();
 
   // FUNCIONES DE ACCIÓN
 
@@ -110,6 +119,51 @@ export const useExpenses = () => {
     return await promise;
   }
 
+  /**
+   * Importa gastos desde un archivo Excel
+   * @param file - Archivo Excel a importar
+   * @param continueOnError - Continuar con la importación si hay errores
+   */
+  async function onImportExpenses(file: File, continueOnError: boolean = false) {
+    const promise = runAndHandleError(async () => {
+      const response = await importExpenses({ file, continueOnError }).unwrap();
+      return response;
+    });
+
+    toast.promise(promise, {
+      loading: "Importando gastos...",
+      success: (data) => data.message || "Importación completada con éxito",
+      error: (err) => err.message,
+    });
+
+    return await promise;
+  }
+
+  /**
+   * Descarga la plantilla Excel para importar gastos
+   */
+  async function onDownloadTemplate() {
+    const toastId = toast.loading("Descargando plantilla...");
+
+    try {
+      const blob = await downloadTemplate().unwrap();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "plantilla_gastos.xlsx";
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove();
+
+      toast.success("Plantilla descargada con éxito", { id: toastId });
+      return true;
+    } catch (error: any) {
+      toast.error(`Error al descargar: ${error.message}`, { id: toastId });
+      return false;
+    }
+  }
+
   return {
     // Consultas
     expensesList,
@@ -124,6 +178,8 @@ export const useExpenses = () => {
     onCreateExpense, // Crear gasto
     onUpdateExpense, // Actualizar gasto
     onDeleteExpenses, // Eliminar gastos
+    onImportExpenses, // Importar gastos
+    onDownloadTemplate, // Descargar plantilla
 
     // Estados de mutaciones
     isSuccessCreateExpense,
@@ -132,5 +188,8 @@ export const useExpenses = () => {
     isLoadingUpdateExpense,
     isSuccessDeleteExpenses,
     isLoadingDeleteExpenses,
+    isSuccessImportExpenses,
+    isLoadingImportExpenses,
+    isLoadingDownloadTemplate,
   };
 };
