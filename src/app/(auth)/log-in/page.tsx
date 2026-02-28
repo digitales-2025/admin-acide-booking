@@ -34,13 +34,13 @@ export default function LoginPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent z-10"></div>
         <Image
           src={ImagePlaceholder || "/placeholder.svg"}
-          alt="Hotel La Almohada del Rey"
+          alt="Hotel Prototype"
           layout="fill"
           objectFit="cover"
           className="transition-transform duration-500 ease-in-out hover:scale-105"
         />
         <div className="absolute bottom-0 left-0 z-20 p-10">
-          <h1 className="text-4xl font-bold text-white drop-shadow-lg">La Almohada del Rey</h1>
+          <h1 className="text-4xl font-bold text-white drop-shadow-lg">Hotel Prototype</h1>
           <p className="mt-2 text-lg text-white/90 drop-shadow-md max-w-md">Sistema de administración exclusivo</p>
         </div>
       </div>
@@ -72,7 +72,7 @@ export default function LoginPage() {
                           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-500 dark:text-gray-400" />
                           <Input
                             type="email"
-                            placeholder="nombre@almohada-rey.com"
+                            placeholder="nombre@hotelprototype.com"
                             className="pl-10 border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
                             {...field}
                           />
@@ -124,7 +124,7 @@ export default function LoginPage() {
 
             <div className="mt-8 text-center">
               <span className="text-sm text-gray-500 dark:text-gray-400">
-                La Almohada del Rey © {new Date().getFullYear()}
+                Hotel Prototype © {new Date().getFullYear()}
               </span>
             </div>
           </div>

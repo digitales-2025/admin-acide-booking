@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Almohada del Rey",
-  description: "Panel administrativo de la Almohada del Rey",
+  title: "Hotel Prototype",
+  description: "Panel administrativo de Hotel Prototype",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

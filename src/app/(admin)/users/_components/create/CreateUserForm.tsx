@@ -43,7 +43,7 @@ export default function CreateUserForm({ children, form, onSubmit, handleGenerat
             <FormItem>
               <FormLabel>Correo electrónico</FormLabel>
               <FormControl>
-                <Input placeholder="usuario@almohadarey.com" {...field} />
+                <Input placeholder="usuario@hotelprototype.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

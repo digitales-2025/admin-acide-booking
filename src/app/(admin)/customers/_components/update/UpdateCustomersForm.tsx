@@ -274,7 +274,7 @@ export default function UpdateCustomersForm({
             <FormItem>
               <FormLabel>Correo electrónico</FormLabel>
               <FormControl>
-                <InputWithIcon Icon={Mail} placeholder="usuario@almohadarey.com" {...field} />
+                <InputWithIcon Icon={Mail} placeholder="usuario@hotelprototype.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -385,7 +385,7 @@ export default function UpdateCustomersForm({
                 <FormItem>
                   <FormLabel>Nombre de la empresa</FormLabel>
                   <FormControl>
-                    <InputWithIcon Icon={Building2} placeholder="Ejm: Almohada Rey" {...field} />
+                    <InputWithIcon Icon={Building2} placeholder="Ejm: Hotel Prototype" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

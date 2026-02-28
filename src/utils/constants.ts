@@ -4,7 +4,7 @@
  *
  * Este valor debe coincidir con el valor utilizado en el backend.
  */
-export const BETTER_AUTH_COOKIE_PREFIX = "almohada-rey-better-auth";
+export const BETTER_AUTH_COOKIE_PREFIX = "hotel-prototype-better-auth";
 
 export const AUTH_COOKIE_NAME =
   process.env.NODE_ENV === "production"
